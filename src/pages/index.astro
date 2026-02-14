@@ -1,0 +1,130 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Socials from "@/components/Socials.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import Card from "@/components/Card.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
+import IconRss from "@/assets/icons/IconRss.svg";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import { SITE } from "@/config";
+import { SOCIALS } from "@/constants";
+
+const posts = await getCollection("blog");
+
+const sortedPosts = getSortedPosts(posts);
+const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
+const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+---
+
+<Layout>
+  <Header />
+  <main id="main-content" data-layout="index" class="app-layout">
+    <section id="hero" class:list={["pt-6 pb-4", "border-b border-border"]}>
+      <h2 class="my-4 inline-block font-bold sm:my-8 sm:text-4xl">
+        用更清晰的方式理解世界
+      </h2>
+      <a
+        target="_blank"
+        href="/rss.xml"
+        class="inline-block"
+        aria-label="rss feed"
+        title="RSS Feed"
+      >
+        <IconRss
+          width={20}
+          height={20}
+          class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
+        />
+        <span class="sr-only">RSS Feed</span>
+      </a>
+
+      <p>
+        我在数据、工具与商业增长之间寻找答案。
+      </p>
+      <p class="mt-2">
+        作为一名拥有 20 年经验的数据科学实践者，我致力于消除商业决策中的模糊性 。我享受用数据帮助业务增长、优化流程、提升效率，也乐于探索更好的工具，让知识与决策变得更透明、更可复用。
+      </p>
+      <p class="mt-2">
+        R 语言、深度学习模型或运筹算法，不仅仅是技术工具，而是理解复杂世界的不同入口。我并不急于定义自己是“管理者”还是“工程师”。我更在意的是：如何用这些方法构建更清晰的理解，并让这种理解在现实中产生实际的影响。
+      </p>
+
+      <p class="mt-2">
+      在这里，我记录关于数据科学、智能增长与 R 语言的思考。
+      </p>
+      {
+        // only display if at least one social link is enabled
+        SOCIALS.length > 0 && (
+          <div class="mt-4 flex max-sm:flex-col sm:items-center">
+            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
+            <Socials />
+          </div>
+        )
+      }
+    </section>
+
+<section
+  id="featured"
+  class="pt-6 pb-4 border-b border-border"
+>
+  <h2 class="text-2xl font-semibold tracking-wide">出版物</h2>
+
+  <ul>
+    <li class="my-6">
+      <a href="/rtorchbook/" class="block hover:opacity-80">
+        <p class="opacity-100 mt-1">
+           2026,《深度学习精解——R 语言实现》
+        </p>
+      </a>
+      
+      <a href="http://item.jd.com/11520666.html" class="block hover:opacity-80">
+        <p class="opacity-100 mt-1">
+           2014,《R 语言核心技术手册》
+        </p>
+      </a>
+
+      <a href="https://cran.r-project.org/other-docs.html" class="block hover:opacity-80">
+        <p class="opacity-100 mt-1">
+           2013,《153 分钟学会 R》、《R reference card》中文版
+        </p>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+    {
+      recentPosts.length > 0 && (
+        <section id="recent-posts" class="pt-6 pb-4">
+          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
+          <ul>
+            {recentPosts.map(
+              (data, index) =>
+                index < SITE.postPerIndex && <Card variant="h3" {...data} />
+            )}
+          </ul>
+        </section>
+      )
+    }
+
+    <div class="my-8 text-center">
+      <LinkButton href="/posts/">
+        All Posts
+        <IconArrowRight class="inline-block rtl:-rotate-180" />
+      </LinkButton>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const indexLayout = (document.querySelector("#main-content") as HTMLElement)
+      ?.dataset?.layout;
+    if (indexLayout) {
+      sessionStorage.setItem("backUrl", "/");
+    }
+  });
+</script>

@@ -1,0 +1,23 @@
+export const SITE = {
+  website: "https://bjt.name/", 
+  author: "思喆",
+  profile: "https://bjt.name/about/",
+  desc: "在数据、工具与表达之间工作，探索更清晰的理解方式。",
+  title: "The Second Culture",
+  ogImage: "astropaper-og.jpg",
+  lightAndDarkMode: true,
+  postPerIndex: 4,
+  postPerPage: 10,
+  scheduledPostMargin: 15 * 60 * 1000,
+  showArchives: true,
+  showBackButton: true,
+  editPost: {
+    enabled: false,
+    text: "Edit page",
+    url: "",
+  },
+  dynamicOgImage: true,
+  dir: "ltr",
+  lang: "zh-cn",
+  timezone: "Asia/Shanghai",
+} as const;

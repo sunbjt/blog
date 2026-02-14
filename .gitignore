@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# production build
+dist/
+
+# astro cache
+.astro/
+
+# system files
+.DS_Store
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env files
+.env
+.env.local
+.env.*.local
+
