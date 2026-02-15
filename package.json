@@ -18,6 +18,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.6",
+    "astro-plantuml": "^0.1.4",
     "dayjs": "^1.11.19",
     "katex": "^0.16.28",
     "lodash.kebabcase": "^4.1.1",
