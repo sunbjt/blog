@@ -6,8 +6,7 @@ draft: false
 tags:
   - deep-learning
   - life
-description:
-  从 Hexo 到 Astro，从 GitHub 到 Cloudflare，以及关于“第二种文化”的随想。
+description: "从 Hexo 到 Astro，从 GitHub 到 Cloudflare，以及关于“第二种文化”的随想。"
 ---
 
 这一阵子，在 Gemini 和 Microsoft Copilot 两大顶级助手的加持下，很短时间就把原本安在 Hexo Next 上的博客搬了个家。
