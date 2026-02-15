@@ -4,6 +4,9 @@ node_modules/
 # production build
 dist/
 
+# page find index
+public/pagefind/
+
 # astro cache
 .astro/
 
@@ -21,3 +24,4 @@ pnpm-debug.log*
 .env.local
 .env.*.local
 
+pnpm-workspace.yaml

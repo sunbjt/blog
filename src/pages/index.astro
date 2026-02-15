@@ -94,6 +94,24 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
   </ul>
 </section>
 
+    {
+      featuredPosts.length > 0 && (
+        <section
+          id="featured"
+          class:list={[
+            "pt-8 pb-4",
+            { "border-b border-border": recentPosts.length > 0 },
+          ]}
+        >
+          <h2 class="text-2xl font-semibold tracking-wide mb-6">精选推荐</h2>
+          <ul>
+            {featuredPosts.map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
     {
       recentPosts.length > 0 && (

@@ -2,6 +2,7 @@
 title: 迁徙、重构与第二种文化
 author: 思喆
 pubDatetime: 2026-02-15T19:30:00Z
+featured: true
 tags:
   - deep-learning
   - life
