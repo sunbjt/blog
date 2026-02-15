@@ -1,0 +1,31 @@
+<section class="giscus mx-auto mt-10 w-full"></section>
+
+<script>
+  // 获取当前的主题配置
+  const theme = localStorage.getItem("theme");
+  const giscusTheme = theme === "light" ? "light" : "transparent_dark"; // 这里的 dark 主题可以根据喜好选 dark, dark_dimmed, 或 transparent_dark
+
+  const script = document.createElement("script");
+  script.src = "https://giscus.app/client.js";
+  script.setAttribute("data-repo", "sunbjt/blog");
+  script.setAttribute("data-repo-id", "R_kgDORQWejw");
+  script.setAttribute("data-category", "Announcements");
+  script.setAttribute("data-category-id", "DIC_kwDORQWej84C2eQf");
+  script.setAttribute("data-mapping", "pathname");
+  script.setAttribute("data-strict", "0");
+  script.setAttribute("data-reactions-enabled", "1");
+  script.setAttribute("data-emit-metadata", "0");
+  script.setAttribute("data-input-position", "bottom");
+  script.setAttribute("data-lang", "zh-CN");
+  script.setAttribute("data-loading", "lazy");
+  script.setAttribute("crossorigin", "anonymous");
+  script.setAttribute("data-theme", giscusTheme); // 使用动态获取的主题
+  script.async = true;
+
+  const giscusDiv = document.querySelector(".giscus");
+  giscusDiv && giscusDiv.appendChild(script);
+
+  // 监听主题切换事件 (Astro-Paper 通常在 html 标签上切换 data-theme 或 class)
+  // 如果你想实现动态切换，需要监听 theme-change 事件，这部分稍微复杂，
+  // 对于大多数用户，上面的代码在页面刷新时生效已经足够了。
+</script>
