@@ -1,13 +1,15 @@
 ---
 title: 迁徙、重构与第二种文化
 author: 思喆
-pubDatetime: 2026-02-15T19:30:00Z
+pubDatetime: 2026-02-14T19:30:00Z
 featured: true
+draft: false
 tags:
   - deep-learning
   - life
-description: "从 Hexo 到 Astro，从 GitHub 到 Cloudflare，以及关于“第二种文化”的随想。"
+description: 从 Hexo 到 Astro，从 GitHub 到 Cloudflare，以及关于“第二种文化”的随想。
 ---
+
 
 这一阵子，在 Gemini 和 Microsoft Copilot 两大顶级助手的加持下，很短时间就把原本安在 Hexo Next 上的博客搬了个家。
 
