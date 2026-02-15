@@ -1,6 +1,8 @@
+@import url("https://cdn.jsdelivr.net/npm/fontsource-noto-sans-sc/index.css");
 @import "tailwindcss";
 @import "./typography.css";
 @import "katex/dist/katex.min.css";
+
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -22,7 +24,7 @@ html[data-theme="dark"] {
 }
 
 @theme inline {
-  --font-app: var(--font-google-sans-code);
+  --font-app: var(--font-body); /* ← 只改这里 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
@@ -104,49 +106,11 @@ article h4 {
 }
 
 
-/* 霞鹜文楷（只用 Regular） */
-/* Regular 400 */
-@font-face {
-  font-family: "LXGW WenKai";
-  src: url("/fonts/LXGWWenKai-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* 模拟 500 */
-@font-face {
-  font-family: "LXGW WenKai";
-  src: url("/fonts/LXGWWenKai-Regular.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* 模拟 600 */
-@font-face {
-  font-family: "LXGW WenKai";
-  src: url("/fonts/LXGWWenKai-Regular.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* 模拟 700 */
-@font-face {
-  font-family: "LXGW WenKai";
-  src: url("/fonts/LXGWWenKai-Regular.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-
 :root {
-  --font-body: "LXGW WenKai", system-ui, -apple-system, BlinkMacSystemFont,
+  --font-body: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  --font-heading: "LXGW WenKai", system-ui, -apple-system, BlinkMacSystemFont,
+  --font-heading: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 

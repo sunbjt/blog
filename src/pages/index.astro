@@ -22,8 +22,8 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 <Layout>
   <Header />
   <main id="main-content" data-layout="index" class="app-layout">
-    <section id="hero" class:list={["pt-6 pb-4", "border-b border-border"]}>
-      <h2 class="my-4 inline-block font-bold sm:my-8 sm:text-4xl">
+    <section id="hero" class:list={["pt-1 pb-4", "border-b border-border"]}>
+      <h2 class="my-2 inline-block font-bold sm:my-8 sm:text-3xl">
         用更清晰的方式理解世界
       </h2>
       <a
@@ -98,7 +98,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
     {
       recentPosts.length > 0 && (
         <section id="recent-posts" class="pt-6 pb-4">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
+          <h2 class="text-2xl font-semibold tracking-wide mb-6">近期文章</h2>
           <ul>
             {recentPosts.map(
               (data, index) =>
