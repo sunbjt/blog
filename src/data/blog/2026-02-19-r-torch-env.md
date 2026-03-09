@@ -1,5 +1,5 @@
 ---
-title: R torch 环境安装
+title: R torch GPU 环境安装
 author: 思喆
 pubDatetime: 2026-02-19T09:06:31Z
 slug: r-torch-env
@@ -168,8 +168,6 @@ results <- mark(
   memory = FALSE
 )
 ```
-
-T882Nd9kUZswmhhy
 
 返回结果：
 
