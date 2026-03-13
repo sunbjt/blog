@@ -3,7 +3,7 @@ title: 拒绝流水线，做驱动商业价值的“AI 统计学家”
 author: 思喆
 pubDatetime: 2026-03-11T09:06:31Z
 slug: ai-statistican
-featured: false
+featured: true
 draft: false
 tags:
   - 数据思维
@@ -98,7 +98,7 @@ matrix_factorization_model <- nn_module(
 
 我们需要的是一种连贯的“数据科学心流”。在统一的 R 生态内，数据科学家可以体验到极其丝滑的端到端作业：
 
-- 不要忽视数据预处理的科学性，使用 `tidy*` 系列，比如 `tidyverse`、`tidymodel`、`tidytext` 等扩展包进行优雅且高效的预处理。
+- 不要忽视数据预处理的科学性，使用 `tidy*` 系列，比如 `tidyverse`、`tidymodel`、`tidytext` 等扩展包进行优雅且高效的预处理。在科学数据处理的过程会让你发现业务体系中容易被忽视的细节和真相。
 - 使用继承 grammar of graphics 思想的 `ggplot2` 进行深度的可视化挖掘进行便捷和快速的探索性数据分析，快速锁定业务特征。
 - 升级思维范式，无缝衔接至 `torch` 进行深度学习与生成式 AI 的构建。
 - 依托 `Quarto` 等工具，将分析过程与业务洞察一键转化为高专业度的报告与出版物，完成商业闭环。
