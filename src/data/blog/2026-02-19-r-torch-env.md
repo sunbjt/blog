@@ -76,6 +76,14 @@ identical(x, as_array(y))
 
 如果你的设备拥有 NVIDIA GPU 并希望利用显卡加速，请参考下文的 GPU 版本安装说明。
 
+**4. 安装 R studio**
+
+安装好 R 环境之后，我们还需要一个好的 IDE。建议安装 posit 公司开发的 [RStudio 桌面版](https://posit.co/download/rstudio-desktop/)。
+
+对没错，我们用的 `torch` 包也是这个公司的作品。
+
+RStudio 安装结束后，会自动匹配 R 的路径。恭喜你！你已经有了一个可以跑程序的环境了。
+
 <------- 正文开始 ------->
 
 本文记录了在云服务器上从零配置 R 语言 torch 深度学习环境的完整过程。主要涵盖底层显卡驱动安装、R 语言最新版安装以及支持 GPU 加速的 Torch 包配置。
