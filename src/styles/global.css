@@ -107,10 +107,10 @@ article h4 {
 
 
 :root {
-  --font-body: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont,
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  --font-heading: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont,
+  --font-heading: system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
