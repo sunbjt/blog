@@ -23,46 +23,55 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
   <Header />
   <main id="main-content" data-layout="index" class="app-layout">
     <section id="hero" class:list={["pt-1 pb-4", "border-b border-border"]}>
-      <h2 class="my-2 inline-block font-bold sm:my-8 sm:text-3xl">
-        用更清晰的方式理解世界
-      </h2>
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="inline-block"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
+      <div class="clearfix">
+        <img 
+          src="/upload/image/y7hh.png" 
+          alt="个人照片" 
+          class="w-32 h-32 rounded-full object-cover border-2 border-accent float-right ml-6 mb-4"
         />
-        <span class="sr-only">RSS Feed</span>
-      </a>
+        <div class="flex items-center gap-4">
+          <h2 class="my-2 font-bold sm:my-8 sm:text-3xl">
+            用更清晰的方式理解世界
+          </h2>
+          <a
+            target="_blank"
+            href="/rss.xml"
+            class="inline-block"
+            aria-label="rss feed"
+            title="RSS Feed"
+          >
+            <IconRss
+              width={20}
+              height={20}
+              class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
+            />
+            <span class="sr-only">RSS Feed</span>
+          </a>
+        </div>
 
-      <p>
-        我在数据、工具与商业增长之间寻找答案。
-      </p>
-      <p class="mt-2">
-        作为一名拥有 20 年经验的数据科学实践者，我致力于消除商业决策中的模糊性 。我享受用数据帮助业务增长、优化流程、提升效率，也乐于探索更好的工具，让知识与决策变得更透明、更可复用。
-      </p>
-      <p class="mt-2">
-        R 语言、深度学习模型或运筹算法，不仅仅是技术工具，而是理解复杂世界的不同入口。我并不急于定义自己是“管理者”还是“工程师”。我更在意的是：如何用这些方法构建更清晰的理解，并让这种理解在现实中产生实际的影响。
-      </p>
+        <p class="mt-4">
+          我在数据、工具与商业增长之间寻找答案。
+        </p>
+        <p class="mt-2">
+          作为一名拥有 20 年经验的数据科学实践者，我致力于消除商业决策中的模糊性 。我享受用数据帮助业务增长、优化流程、提升效率，也乐于探索更好的工具，让知识与决策变得更透明、更可复用。
+        </p>
+        <p class="mt-2">
+          R 语言、深度学习模型或运筹算法，不仅仅是技术工具，而是理解复杂世界的不同入口。我并不急于定义自己是“管理者”还是“工程师”。我更在意的是：如何用这些方法构建更清晰的理解，并让这种理解在现实中产生实际的影响。
+        </p>
 
-      <p class="mt-2">
-      在这里，我记录关于数据科学、智能增长与 R 语言的思考。
-      </p>
-      {
-        // only display if at least one social link is enabled
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
-            <Socials />
-          </div>
-        )
-      }
+        <p class="mt-2">
+        在这里，我记录关于数据科学、智能增长与 R 语言的思考。
+        </p>
+        {
+          // only display if at least one social link is enabled
+          SOCIALS.length > 0 && (
+            <div class="mt-4 flex max-sm:flex-col sm:items-center">
+              <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
+              <Socials />
+            </div>
+          )
+        }
+      </div>
     </section>
 
 <section
