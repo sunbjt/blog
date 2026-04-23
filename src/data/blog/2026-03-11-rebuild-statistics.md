@@ -3,7 +3,7 @@ title: 拒绝流水线，做驱动商业价值的“AI 统计学家”
 author: 思喆
 pubDatetime: 2026-03-11T09:06:31Z
 slug: ai-statistican
-featured: true
+featured: false
 draft: false
 tags:
   - 数据思维
