@@ -3,7 +3,7 @@ title: "重新审视 R 与 Python 的价值边界"
 author: 思喆
 pubDatetime: 2026-04-21T09:06:31Z
 slug: r-or-python
-featured: true
+featured: false
 draft: false
 tags:
   - 思考
@@ -38,7 +38,7 @@ R 赢在探索与洞察阶段。借助于 `tidyverse` 优雅的管道语法，�
 
 ## Pandas 的血统与哲学的分歧
 
-许多 Python 用户可能并未意识到，他们赖以生存的 Pandas，其灵魂深处刻着 R 的基因。Pandas 的作者 Wes McKinney 在开发初期，大量汲取了跨界的智慧：
+许多 Python 用户可能并未意识到，他们赖以生存的 Pandas，其灵魂深处刻着 R 的基因。Pandas 的作者 Wes McKinney (2023 年 11 月正式加入 Posit 担任首席架构师，这个公司也就是以前的 RStudio)在开发初期，大量汲取了跨界的智慧：
 
 1. Pandas 最直接的灵感来源是 R 的 data.frame 结构，它允许异构数据以二维表格的形式存在。
 2. 借助 NumPy 的底层驱动，可以很容易利用 C 语言底层的向量化操作（Vectorized operations）和广播机制，突破 Python 原生的性能瓶颈。
@@ -59,6 +59,8 @@ R 赢在探索与洞察阶段。借助于 `tidyverse` 优雅的管道语法，�
 >当你写 R 时，你是在对数据进行质询。你的伙伴是业务/数据本身。你关心的不是函数如何封装，而是变量的分布、异常值的业务含义、以及整个分析流程是否具备科学可重复性。你致力于用最快的速度，从原始数据中榨取出可以直接指导决策的业务洞察。
 
 有趣的是，边界正在消融：Python 在链式调用中变得越来越“函数式”；而 R 为了适应工业化部署，也引入了 R6 类系统和 `targets` 等工程化工具。
+
+你从 Posit 这家公司的组织上就管中窥豹：R 体系 `tidyverse` 作者 Hadley Wickham 和 Python 体系 `pandas` 作者 Wes McKinney 两位大神都在 Posit(前 RStudio) 共事，因为他们很早就发现 R vs. Python 的“语言战争”对数据科学的发展毫无益处。
 
 ## 生成式 AI 时代的范式转移
 
