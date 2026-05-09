@@ -13,6 +13,7 @@ import { SITE } from "./src/config";
 import remarkMath from "remark-math"; 
 import rehypeKatex from "rehype-katex";
 import plantuml from "astro-plantuml";
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,9 +22,15 @@ export default defineConfig({
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
     }),
+    mermaid({ autoTheme: true }),
     plantuml(),
   ],
   markdown: {
+    syntaxHighlight: {
+      type: 'shiki',
+      // 核心配置：告诉高亮引擎，遇到这两个词直接跳过，交给插件处理
+      excludeLangs: ['mermaid', 'plantuml'], 
+    },
     remarkPlugins: [
       remarkToc, 
       [remarkCollapse, { test: "Table of contents" }],

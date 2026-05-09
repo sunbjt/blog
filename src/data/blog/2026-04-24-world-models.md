@@ -83,6 +83,57 @@ $$
 
 为了让这事儿不那么抽象（非程序员的你可以停止阅读了，不然看完就更抽象了。。。），我用 `torch` 手撸了一个极简的世界模型。
 
+
+```mermaid
+%%{init: {'theme': 'base'}}%%
+flowchart TD
+    %% 定义样式
+    classDef process fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef model fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef decision fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+
+    %% 流程逻辑
+    subgraph Data_Input [输入层]
+        Obs_t[当前观测 Observation_t]
+        Act_t[当前动作 Action_t]
+    end
+
+    subgraph WorldModel [WorldModelV3 核心]
+        Enc[Encoder: 压缩观测]:::model
+        Dyn[Dynamics: 预测下一隐状态]:::model
+        Dec[Decoder: 重建观测]:::model
+    end
+
+    subgraph Training_Loop 
+        Decision{Scheduled Sampling<br>判断策略}:::decision
+        Real_Z[真实隐状态 z_real]
+        Pred_Z[预测隐状态 z_pred]
+    end
+
+    %% 连接关系
+    Obs_t --> Enc
+    Enc -->|生成| Z_t[隐状态 z_t]
+    Z_t --> Dyn
+    Act_t --> Dyn
+    
+    Dyn -->|计算| Pred_Z
+    Pred_Z --> Dec
+    Dec -->|输出| Output[重建观测 Predicted_Obs]
+
+    %% 循环逻辑
+    Dyn --> Decision
+    Real_Z --> Decision
+    
+    Decision -->|"使用预测 (Pred)"| Z_next[下一时间步 z_t+1]
+    Decision -->|"使用真实 (Real)"| Z_next
+    
+    Z_next --> Dyn
+
+    %% 应用样式
+    class Enc,Dyn,Dec process
+    class Decision decision
+```
+
 假设我们的环境数据长这样：有初始状态、有动作、有由它们共同决定的下一个状态，随着时间步的变化：
 
 ```

@@ -11,6 +11,53 @@ description:
   Google 开源的 Gemma 4 对本地部署非常友好。本文记录了如何在 Mac M4 16G 环境下运行 e4b 模型，并通过 R 语言的 httr2 包实现极速的结构化 JSON 数据提取。
 ---
 
+2026.05.09 更新：
+
+本地调用太吃资源了，改为使用 Google AIStudio 提供的免费结构，通过轮询的方式来薅羊毛。
+
+```r
+> library(httr2)
+> 
+> # 替换为你的实际 API Key
+> api_key <- Sys.getenv("GEMINI_API_KEY1") 
+> 
+> # 获取模型列表
+> models_req <- request("https://generativelanguage.googleapis.com/v1beta/models") |>
++     req_headers("x-goog-api-key" = api_key) |>
++     req_perform()
+> 
+> models_list <- models_req |> resp_body_json()
+> 
+> # 打印出所有包含 "gemma" 的模型名称
+> gemma_models <- sapply(models_list$models, function(x) x$name)
+> gemma_models
+ [1] "models/gemini-2.5-flash"                              "models/gemini-2.5-pro"                               
+ [3] "models/gemini-2.0-flash"                              "models/gemini-2.0-flash-001"                         
+ [5] "models/gemini-2.0-flash-lite-001"                     "models/gemini-2.0-flash-lite"                        
+ [7] "models/gemini-2.5-flash-preview-tts"                  "models/gemini-2.5-pro-preview-tts"                   
+ [9] "models/gemma-4-26b-a4b-it"                            "models/gemma-4-31b-it"                               
+[11] "models/gemini-flash-latest"                           "models/gemini-flash-lite-latest"                     
+[13] "models/gemini-pro-latest"                             "models/gemini-2.5-flash-lite"                        
+[15] "models/gemini-2.5-flash-image"                        "models/gemini-3-pro-preview"                         
+[17] "models/gemini-3-flash-preview"                        "models/gemini-3.1-pro-preview"                       
+[19] "models/gemini-3.1-pro-preview-customtools"            "models/gemini-3.1-flash-lite-preview"                
+[21] "models/gemini-3.1-flash-lite"                         "models/gemini-3-pro-image-preview"                   
+[23] "models/nano-banana-pro-preview"                       "models/gemini-3.1-flash-image-preview"               
+[25] "models/lyria-3-clip-preview"                          "models/lyria-3-pro-preview"                          
+[27] "models/gemini-3.1-flash-tts-preview"                  "models/gemini-robotics-er-1.5-preview"               
+[29] "models/gemini-robotics-er-1.6-preview"                "models/gemini-2.5-computer-use-preview-10-2025"      
+[31] "models/deep-research-max-preview-04-2026"             "models/deep-research-preview-04-2026"                
+[33] "models/deep-research-pro-preview-12-2025"             "models/gemini-embedding-001"                         
+[35] "models/gemini-embedding-2-preview"                    "models/gemini-embedding-2"                           
+[37] "models/aqa"                                           "models/imagen-4.0-generate-001"                      
+[39] "models/imagen-4.0-ultra-generate-001"                 "models/imagen-4.0-fast-generate-001"                 
+[41] "models/veo-2.0-generate-001"                          "models/veo-3.0-generate-001"                         
+[43] "models/veo-3.0-fast-generate-001"                     "models/veo-3.1-generate-preview"                     
+[45] "models/veo-3.1-fast-generate-preview"                 "models/veo-3.1-lite-generate-preview"                
+[47] "models/gemini-2.5-flash-native-audio-latest"          "models/gemini-2.5-flash-native-audio-preview-09-2025"
+[49] "models/gemini-2.5-flash-native-audio-preview-12-2025" "models/gemini-3.1-flash-live-preview"   
+```
+
 昨天 Google 发布了开源大预言模型 Gemma 4 的系列模型。这次开源协议有所变更，对企业应用更加友好，Google 显然也有其在开源生态上的目的。
 但对普通开发者来说，最直观的利好是本地部署的门槛进一步降低了。
 
@@ -55,3 +102,4 @@ structured_data <- ask_gemma_json(prompt_json)
 
 - 利用 `temperature = 0.0` 让模型每次预测下一个词时只选概率最高的那个，直接跳过了概率采样计算的耗时，同时也保证了输出的确定性。
 - 结合明确的 Prompt 和 JSON 格式锁，切断了模型生成“思考”和“分析”等中间 Token 的链条。原本可能要生成 200 个废话词汇（需要 10 秒），现在被强行压缩到只生成 5 个有效结果词汇（不到 1 秒）。
+
