@@ -74,35 +74,6 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       </div>
     </section>
 
-<section
-  id="featured"
-  class="pt-6 pb-4 border-b border-border"
->
-  <h2 class="text-2xl font-semibold tracking-wide">出版物</h2>
-
-  <ul>
-    <li class="my-6">
-      <a href="https://rtorchbook.cc/" class="block hover:opacity-80">
-        <p class="opacity-100 mt-1 text-accent font-bold">
-           2026,《深度学习与生成式 AI——R torch 核心算法与实战》
-        </p>
-      </a>
-      
-      <a href="https://book.douban.com/subject/25959153/" class="block hover:opacity-80">
-        <p class="opacity-100 mt-1 text-accent font-bold">
-           2014,《R 语言核心技术手册》
-        </p>
-      </a>
-
-      <a href="https://cran.r-project.org/other-docs.html" class="block hover:opacity-80">
-        <p class="opacity-100 mt-1 text-accent font-bold">
-           2013,《153 分钟学会 R》、《R reference card》中文版
-        </p>
-      </a>
-    </li>
-  </ul>
-</section>
-
     {
       featuredPosts.length > 0 && (
         <section
@@ -142,6 +113,36 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         <IconArrowRight class="inline-block rtl:-rotate-180" />
       </LinkButton>
     </div>
+
+    <section
+      id="featured"
+      class="pt-6 pb-4 border-b border-border"
+        >
+      <h2 class="text-2xl font-semibold tracking-wide">出版物</h2>
+
+      <ul>
+        <li class="my-6">
+          <a href="https://rtorchbook.cc/" class="block hover:opacity-80">
+            <p class="opacity-100 mt-1 text-accent font-bold">
+              2026,《深度学习与生成式 AI——R torch 核心算法与实战》
+            </p>
+          </a>
+          
+          <a href="https://book.douban.com/subject/25959153/" class="block hover:opacity-80">
+            <p class="opacity-100 mt-1 text-accent font-bold">
+              2014,《R 语言核心技术手册》
+            </p>
+          </a>
+
+          <a href="https://cran.r-project.org/other-docs.html" class="block hover:opacity-80">
+            <p class="opacity-100 mt-1 text-accent font-bold">
+              2013,《153 分钟学会 R》、《R reference card》中文版
+            </p>
+          </a>
+        </li>
+      </ul>
+    </section>
+
   </main>
   <Footer />
 </Layout>
