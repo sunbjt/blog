@@ -16,55 +16,55 @@ description:
 本地调用太吃资源了，改为使用 Google AIStudio 提供的免费结构，通过轮询的方式来薅羊毛。
 
 ```r
-> library(httr2)
-> 
-> # 替换为你的实际 API Key
-> api_key <- Sys.getenv("GEMINI_API_KEY1") 
-> 
-> # 获取模型列表
-> models_req <- request("https://generativelanguage.googleapis.com/v1beta/models") |>
-+     req_headers("x-goog-api-key" = api_key) |>
-+     req_perform()
-> 
-> models_list <- models_req |> resp_body_json()
-> 
-> # 打印出所有包含 "gemma" 的模型名称
-> gemma_models <- sapply(models_list$models, function(x) x$name)
-> print(gemma_models[grepl("gemm|gemini", gemma_models, ignore.case = TRUE)])
- [1] "models/gemini-2.5-flash"                             
- [2] "models/gemini-2.5-pro"                               
- [3] "models/gemini-2.0-flash"                             
- [4] "models/gemini-2.0-flash-001"                         
- [5] "models/gemini-2.0-flash-lite-001"                    
- [6] "models/gemini-2.0-flash-lite"                        
- [7] "models/gemini-2.5-flash-preview-tts"                 
- [8] "models/gemini-2.5-pro-preview-tts"                   
- [9] "models/gemma-4-26b-a4b-it"                           
-[10] "models/gemma-4-31b-it"                               
-[11] "models/gemini-flash-latest"                          
-[12] "models/gemini-flash-lite-latest"                     
-[13] "models/gemini-pro-latest"                            
-[14] "models/gemini-2.5-flash-lite"                        
-[15] "models/gemini-2.5-flash-image"                       
-[16] "models/gemini-3-pro-preview"                         
-[17] "models/gemini-3-flash-preview"                       
-[18] "models/gemini-3.1-pro-preview"                       
-[19] "models/gemini-3.1-pro-preview-customtools"           
-[20] "models/gemini-3.1-flash-lite-preview"                
-[21] "models/gemini-3.1-flash-lite"                        
-[22] "models/gemini-3-pro-image-preview"                   
-[23] "models/gemini-3.1-flash-image-preview"               
-[24] "models/gemini-3.1-flash-tts-preview"                 
-[25] "models/gemini-robotics-er-1.5-preview"               
-[26] "models/gemini-robotics-er-1.6-preview"               
-[27] "models/gemini-2.5-computer-use-preview-10-2025"      
-[28] "models/gemini-embedding-001"                         
-[29] "models/gemini-embedding-2-preview"                   
-[30] "models/gemini-embedding-2"                           
-[31] "models/gemini-2.5-flash-native-audio-latest"         
-[32] "models/gemini-2.5-flash-native-audio-preview-09-2025"
-[33] "models/gemini-2.5-flash-native-audio-preview-12-2025"
-[34] "models/gemini-3.1-flash-live-preview"   
+library(httr2)
+
+# 替换为你的实际 API Key
+api_key <- Sys.getenv("GEMINI_API_KEY1") 
+
+# 获取模型列表
+models_req <- request("https://generativelanguage.googleapis.com/v1beta/models") |>
+    req_headers("x-goog-api-key" = api_key) |>
+    req_perform()
+
+models_list <- models_req |> resp_body_json()
+
+# 打印出所有包含 "gemma" 的模型名称
+gemma_models <- sapply(models_list$models, function(x) x$name)
+print(gemma_models[grepl("gemm|gemini", gemma_models, ignore.case = TRUE)])
+#  [1] "models/gemini-2.5-flash"                             
+#  [2] "models/gemini-2.5-pro"                               
+#  [3] "models/gemini-2.0-flash"                             
+#  [4] "models/gemini-2.0-flash-001"                         
+#  [5] "models/gemini-2.0-flash-lite-001"                    
+#  [6] "models/gemini-2.0-flash-lite"                        
+#  [7] "models/gemini-2.5-flash-preview-tts"                 
+#  [8] "models/gemini-2.5-pro-preview-tts"                   
+#  [9] "models/gemma-4-26b-a4b-it"                           
+# [10] "models/gemma-4-31b-it"                               
+# [11] "models/gemini-flash-latest"                          
+# [12] "models/gemini-flash-lite-latest"                     
+# [13] "models/gemini-pro-latest"                            
+# [14] "models/gemini-2.5-flash-lite"                        
+# [15] "models/gemini-2.5-flash-image"                       
+# [16] "models/gemini-3-pro-preview"                         
+# [17] "models/gemini-3-flash-preview"                       
+# [18] "models/gemini-3.1-pro-preview"                       
+# [19] "models/gemini-3.1-pro-preview-customtools"           
+# [20] "models/gemini-3.1-flash-lite-preview"                
+# [21] "models/gemini-3.1-flash-lite"                        
+# [22] "models/gemini-3-pro-image-preview"                   
+# [23] "models/gemini-3.1-flash-image-preview"               
+# [24] "models/gemini-3.1-flash-tts-preview"                 
+# [25] "models/gemini-robotics-er-1.5-preview"               
+# [26] "models/gemini-robotics-er-1.6-preview"               
+# [27] "models/gemini-2.5-computer-use-preview-10-2025"      
+# [28] "models/gemini-embedding-001"                         
+# [29] "models/gemini-embedding-2-preview"                   
+# [30] "models/gemini-embedding-2"                           
+# [31] "models/gemini-2.5-flash-native-audio-latest"         
+# [32] "models/gemini-2.5-flash-native-audio-preview-09-2025"
+# [33] "models/gemini-2.5-flash-native-audio-preview-12-2025"
+# [34] "models/gemini-3.1-flash-live-preview"   
 ```
 
 昨天 Google 发布了开源大预言模型 Gemma 4 的系列模型。这次开源协议有所变更，对企业应用更加友好，Google 显然也有其在开源生态上的目的。
