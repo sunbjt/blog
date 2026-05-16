@@ -16,7 +16,7 @@ export const SITE = {
     text: "Edit page",
     url: "",
   },
-  dynamicOgImage: true,
+  dynamicOgImage: false,
   dir: "ltr",
   lang: "zh-cn",
   timezone: "Asia/Shanghai",
