@@ -18,6 +18,16 @@ import mermaid from 'astro-mermaid';
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  
+  // ==========================================
+  // 👇 新增这部分：改变 Astro 的构建输出模式，解决 Cloudflare 500 路由死循环
+  build: {
+    format: 'file',
+  },
+  trailingSlash: 'never',
+  // 👆 新增结束
+  // ==========================================
+
   integrations: [
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
@@ -34,10 +44,10 @@ export default defineConfig({
     remarkPlugins: [
       remarkToc, 
       [remarkCollapse, { test: "Table of contents" }],
-      remarkMath, // ← 新增
+      remarkMath, 
     ],
     rehypePlugins: [ 
-      rehypeKatex, // ← 新增 
+      rehypeKatex, 
     ],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
