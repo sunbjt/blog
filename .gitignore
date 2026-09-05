@@ -1,4 +1,5 @@
 # dependencies
+.wrangler/
 node_modules/
 
 # production build

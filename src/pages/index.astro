@@ -1,49 +1,60 @@
 ---
 import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import IconRss from "@/assets/icons/IconRss.svg";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
-import LinkButton from "@/components/LinkButton.astro";
 import Card from "@/components/Card.astro";
-import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
+import LinkButton from "@/components/LinkButton.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
 
-const posts = await getCollection("blog");
+const { socials, posts: postsConfig } = config;
 
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+
+const posts = await getCollection("posts");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const homePath = getRelativeLocaleUrl(locale, "");
 ---
 
 <Layout>
   <Header />
-  <main id="main-content" data-layout="index" class="app-layout">
-    <section id="hero" class:list={["pt-1 pb-4", "border-b border-border"]}>
+  <main
+    id="main-content"
+    data-layout="index"
+    data-home-path={homePath}
+    class="app-layout my-1"
+  >
+    <section id="hero" class="border-border border-b pt-8 pb-6">
       <div class="clearfix">
-        <img 
-          src="/upload/image/y7hh.png" 
-          alt="个人照片" 
-          class="w-32 h-32 rounded-full object-cover border-2 border-accent float-right ml-6 mb-4"
+        <img
+          src="/upload/image/y7hh.png"
+          alt="个人照片"
+          class="float-right ml-6 mb-4 h-32 w-32 rounded-full border-2 border-accent object-cover"
         />
         <div class="flex items-center gap-4">
-          <h2 class="my-2 font-bold sm:my-8 sm:text-3xl">
+          <h1 class="my-2 inline-block text-3xl font-bold sm:text-4xl">
             用更清晰的方式理解世界
-          </h2>
+          </h1>
           <a
             target="_blank"
-            href="/rss.xml"
+            href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}rss.xml`}
             class="inline-block"
-            aria-label="rss feed"
+            aria-label="RSS Feed"
             title="RSS Feed"
           >
             <IconRss
               width={20}
               height={20}
-              class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
+              class="stroke-accent scale-125 stroke-3 rtl:-rotate-90"
             />
             <span class="sr-only">RSS Feed</span>
           </a>
@@ -60,13 +71,15 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         </p>
 
         <p class="mt-2">
-        在这里，我记录关于数据科学、智能增长与 R 语言的思考。
+          在这里，我记录关于数据科学、智能增长与 R 语言的思考。
         </p>
+
         {
-          // only display if at least one social link is enabled
-          SOCIALS.length > 0 && (
+          socials.length > 0 && (
             <div class="mt-4 flex max-sm:flex-col sm:items-center">
-              <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
+              <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
+                {t.home.socialLinks}:
+              </div>
               <Socials />
             </div>
           )
@@ -74,45 +87,48 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       </div>
     </section>
 
-<section
-  id="publications"
-  class="pt-6 pb-4 border-b border-border"
->
-  <h2 class="text-2xl font-semibold tracking-wide">出版物</h2>
-
-  <ul>
-    <li class="my-6">
-      <a href="https://rtorchbook.cc/" class="block hover:opacity-80">
-        <p class="opacity-100 mt-1 text-accent font-bold">
-           2026,《深度学习与生成式 AI——R torch 核心算法与实战》
-        </p>
-      </a>
-      
-      <a href="https://book.douban.com/subject/25959153/" class="block hover:opacity-80">
-        <p class="opacity-100 mt-1 text-accent font-bold">
-           2014,《R 语言核心技术手册》
-        </p>
-      </a>
-
-      <a href="https://cran.r-project.org/other-docs.html" class="block hover:opacity-80">
-        <p class="opacity-100 mt-1 text-accent font-bold">
-           2013,《153 分钟学会 R》、《R reference card》中文版
-        </p>
-      </a>
-    </li>
-  </ul>
-</section>
+    <section
+      id="publications"
+      class="border-border border-b pt-12 pb-6"
+    >
+      <h2 class="text-2xl font-semibold tracking-wide">出版物</h2>
+      <ul class="list-none">
+        <li class="my-4">
+          <a href="https://rtorchbook.cc/" class="block hover:opacity-80">
+            <p class="text-accent mt-1 font-bold">
+              2026,《深度学习与生成式 AI——R torch 核心算法与实战》
+            </p>
+          </a>
+          <a
+            href="https://book.douban.com/subject/25959153/"
+            class="block hover:opacity-80"
+          >
+            <p class="text-accent mt-1 font-bold">
+              2014,《R 语言核心技术手册》
+            </p>
+          </a>
+          <a
+            href="https://cran.r-project.org/other-docs.html"
+            class="block hover:opacity-80"
+          >
+            <p class="text-accent mt-1 font-bold">
+              2013,《153 分钟学会 R》、《R reference card》中文版
+            </p>
+          </a>
+        </li>
+      </ul>
+    </section>
 
     {
       featuredPosts.length > 0 && (
         <section
           id="featured"
           class:list={[
-            "pt-8 pb-4",
-            { "border-b border-border": recentPosts.length > 0 },
+            "pt-12 pb-6",
+            { "border-border border-b": recentPosts.length > 0 },
           ]}
         >
-          <h2 class="text-2xl font-semibold tracking-wide mb-6">精选推荐</h2>
+          <h2 class="mb-6 text-2xl font-semibold tracking-wide">精选推荐</h2>
           <ul>
             {featuredPosts.map(data => (
               <Card variant="h3" {...data} />
@@ -124,21 +140,20 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 
     {
       recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-6 pb-4">
-          <h2 class="text-2xl font-semibold tracking-wide mb-6">近期文章</h2>
+        <section id="recent-posts" class="pt-12 pb-6">
+          <h2 class="mb-6 text-2xl font-semibold tracking-wide">近期文章</h2>
           <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
+            {recentPosts.slice(0, postsConfig.perIndex).map(data => (
+              <Card variant="h3" {...data} />
+            ))}
           </ul>
         </section>
       )
     }
 
     <div class="my-8 text-center">
-      <LinkButton href="/posts/">
-        All Posts
+      <LinkButton href={getRelativeLocaleUrl(locale, "posts")}>
+        {t.home.allPosts}
         <IconArrowRight class="inline-block rtl:-rotate-180" />
       </LinkButton>
     </div>
@@ -149,9 +164,10 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 <script>
   document.addEventListener("astro:page-load", () => {
     const indexLayout = (document.querySelector("#main-content") as HTMLElement)
-      ?.dataset?.layout;
-    if (indexLayout) {
-      sessionStorage.setItem("backUrl", "/");
+      ?.dataset;
+    const baseRoot = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+    if (indexLayout?.layout) {
+      sessionStorage.setItem("backUrl", indexLayout.homePath ?? baseRoot);
     }
   });
 </script>

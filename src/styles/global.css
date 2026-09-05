@@ -1,36 +1,10 @@
-@import url("https://cdn.jsdelivr.net/npm/fontsource-noto-sans-sc/index.css");
 @import "tailwindcss";
+@import "./theme.css";
 @import "./typography.css";
+@import "rehype-callouts/theme/obsidian";
 @import "katex/dist/katex.min.css";
 
-
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-
-:root,
-html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
-}
-
-html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --muted: #343f60;
-  --border: #ab4b08;
-}
-
-@theme inline {
-  --font-app: var(--font-body); /* ← 只改这里 */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-}
 
 @layer base {
   * {
@@ -38,15 +12,10 @@ html[data-theme="dark"] {
     scrollbar-width: auto;
     scrollbar-color: var(--color-muted) transparent;
   }
-  html {
-    @apply overflow-y-scroll scroll-smooth;
-  }
-  body {
-    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
-  }
   a,
-  button {
-    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+  button,
+  #main-content {
+    @apply outline-accent outline-offset-1 focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -59,62 +28,13 @@ html[data-theme="dark"] {
 }
 
 @utility app-layout {
-  @apply mx-auto w-full max-w-app px-4;
+  @apply max-w-app mx-auto w-full px-4;
 }
 
-.active-nav {
+@utility active-nav {
   @apply underline decoration-wavy decoration-2 underline-offset-8;
 }
 
-/* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
-/* Anything that has been anchored to should have extra scroll margin */
 :target {
   scroll-margin-block: 1rem;
-}
-
-/* Markdown 标题优化（中文友好） */
-article h1 {
-  font-size: var(--text-3xl);
-  font-weight: 700;
-  line-height: 1.35;
-  margin-top: 2.2rem;
-  margin-bottom: 1rem;
-}
-
-article h2 {
-  font-size: var(--text-2xl);
-  font-weight: 600;
-  line-height: 1.4;
-  margin-top: 1.8rem;
-  margin-bottom: 0.8rem;
-}
-
-article h3 {
-  font-size: var(--text-xl);
-  font-weight: 600;
-  line-height: 1.45;
-  margin-top: 1.5rem;
-  margin-bottom: 0.6rem;
-}
-
-article h4 {
-  font-size: var(--text-lg);
-  font-weight: 600;
-  line-height: 1.5;
-  margin-top: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-
-:root {
-  --font-body: system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-
-  --font-heading: system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-
-body {
-  font-family: var(--font-body);
 }

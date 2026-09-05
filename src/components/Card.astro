@@ -1,35 +1,30 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { slugifyStr } from "@/utils/slugify";
-import { getPath } from "@/utils/getPath";
+import { getPostUrl } from "@/utils/getPostPaths";
+import { toTransitionName } from "@/utils/toTransitionName";
 import Datetime from "./Datetime.astro";
 
 type Props = {
   variant?: "h2" | "h3";
-} & CollectionEntry<"blog">;
+} & CollectionEntry<"posts">;
 
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
-const { title, description, ...props } = data;
+const { title, ...props } = data;
 ---
-
+<!-- 单行文章列表项（旧版样式）：整行可点，标题后紧跟日期，无摘要 -->
 <li class="my-2">
   <a
-    href={getPath(id, filePath)}
+    href={getPostUrl(id, filePath, Astro.currentLocale)}
     class:list={[
       "inline-block text-base font-medium text-accent",
       "decoration-dashed underline-offset-4 hover:underline",
       "focus-visible:no-underline focus-visible:underline-offset-0",
     ]}
   >
-    <div class="flex justify-between items-center">
-      <Heading
-        style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
-      >
-        {title}
-      </Heading>
-
-      <div class="text-sm opacity-60 whitespace-nowrap ms-4">
+    <div class="flex items-center justify-between">
+      <Heading transition:name={toTransitionName(id)}>{title}</Heading>
+      <div class="ms-4 text-sm opacity-60 whitespace-nowrap">
         <Datetime {...props} />
       </div>
     </div>

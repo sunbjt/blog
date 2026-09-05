@@ -1,56 +1,58 @@
-import { defineConfig, envField, fontProviders } from "astro/config";
+import { defineConfig, envField, svgoOptimizer } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
+import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import { unified } from "@astrojs/markdown-remark";
+import remarkMath from "remark-math";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
+import rehypeKatex from "rehype-katex";
+import rehypeCallouts from "rehype-callouts";
 import {
   transformerNotationDiff,
   transformerNotationHighlight,
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
-import { SITE } from "./src/config";
-import remarkMath from "remark-math"; 
-import rehypeKatex from "rehype-katex";
-import plantuml from "astro-plantuml";
-import mermaid from 'astro-mermaid';
+import config from "./astro-paper.config";
 
-// https://astro.build/config
 export default defineConfig({
-  site: SITE.website,
-  
-  // ==========================================
-  // 👇 新增这部分：改变 Astro 的构建输出模式，解决 Cloudflare 500 路由死循环
+  site: config.site.url,
+  // Cloudflare Pages 兼容：旧版曾遇到 500 路由死循环，保持 file 输出与忽略尾斜杠
   build: {
-    format: 'file',
+    format: "file",
   },
-  trailingSlash: 'ignore',
-  // 👆 新增结束
-  // ==========================================
-
+  trailingSlash: "ignore",
   integrations: [
+    mdx(),
     sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      filter: page =>
+        config.features?.showArchives !== false || !page.endsWith("/archives/"),
     }),
-    mermaid({ autoTheme: true }),
-    plantuml(),
   ],
-  markdown: {
-    syntaxHighlight: {
-      type: 'shiki',
-      // 核心配置：告诉高亮引擎，遇到这两个词直接跳过，交给插件处理
-      excludeLangs: ['mermaid', 'plantuml'], 
+  i18n: {
+    locales: ["zh-cn"],
+    defaultLocale: "zh-cn",
+    routing: {
+      prefixDefaultLocale: false,
     },
-    remarkPlugins: [
-      remarkToc, 
-      [remarkCollapse, { test: "Table of contents" }],
-      remarkMath, 
-    ],
-    rehypePlugins: [ 
-      rehypeKatex, 
-    ],
+  },
+  markdown: {
+    processor: unified({
+      remarkPlugins: [
+        remarkMath,
+        remarkToc,
+        [remarkCollapse, { test: "Table of contents" }],
+      ],
+      rehypePlugins: [rehypeKatex, rehypeCallouts],
+    }),
+    // mermaid/plantuml 围栏交给客户端渲染器处理，math 由 rehype-katex 处理，
+    // 均需排除，避免被 Shiki 当代码高亮（默认 excludeLangs 是 ['math']，需写全）
+    syntaxHighlight: {
+      type: "shiki",
+      excludeLangs: ["mermaid", "plantuml", "math"],
+    },
     shikiConfig: {
-      // For more themes, visit https://shiki.style/themes
       themes: { light: "min-light", dark: "night-owl" },
       defaultColor: false,
       wrap: false,
@@ -63,18 +65,7 @@ export default defineConfig({
     },
   },
   vite: {
-    // eslint-disable-next-line
-    // @ts-ignore
-    // This will be fixed in Astro 6 with Vite 7 support
-    // See: https://github.com/withastro/astro/issues/14030
     plugins: [tailwindcss()],
-    optimizeDeps: {
-      exclude: ["@resvg/resvg-js"],
-    },
-  },
-  image: {
-    responsiveStyles: true,
-    layout: "constrained",
   },
   env: {
     schema: {
@@ -84,5 +75,8 @@ export default defineConfig({
         optional: true,
       }),
     },
+  },
+  experimental: {
+    svgOptimizer: svgoOptimizer(),
   },
 });
