@@ -3,7 +3,7 @@ title: "大模型的尽头，是世界模型"
 author: 思喆
 pubDatetime: 2026-04-24T09:06:31Z
 slug: world-models
-featured: true
+featured: false
 draft: false
 tags:
   - 人工智能

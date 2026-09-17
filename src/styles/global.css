@@ -38,3 +38,12 @@
 :target {
   scroll-margin-block: 1rem;
 }
+
+/* display math ($$..$$) 会被 rehype-katex 渲染为 <span class="katex-display">，
+   直接挂在 .app-prose 容器上、不在 <p> 里，因此会继承 prose 默认的
+   深色 --tw-prose-body，dark 模式下看不清。这里显式用主题感知的前景色。
+   用普通 CSS 声明而非 @apply，避免被 Tailwind 的去重/合并干扰。 */
+.katex-display .katex,
+.app-prose .katex {
+  color: var(--foreground);
+}

@@ -3,7 +3,7 @@ title: 因果推断实战指南
 author: 思喆
 pubDatetime: 2026-09-01T08:02:31Z
 featured: true
-draft: false
+draft: true
 tags:
   - 算法
 description: 从因果幻觉到现代正交：基于 R 代码演进的因果推断深度实战指南
@@ -72,8 +72,10 @@ df$month <- factor(df$month)
 
 ```r
 # 截面 OLS 模型 (单月数据)
-cross <- df[df$month == 1, ]
+cross <- df[df$month == 12, ]
 m1 <- lm(sales ~ score + store_id, data = cross)
+round(coef(m1)["score"], 3)
+# 输出：score = 4.553
 
 # 全量简单 OLS 模型
 m2 <- lm(sales ~ score, data = df)
@@ -81,7 +83,12 @@ round(coef(m2)["score"], 3)
 # 输出: score = 5.219
 ```
 
-简单 OLS 估算的系数高达 5.219，远高于真实值 2.000。
+实际工作中我们一般会有两种选择：
+
+- 使用最新的一个月数据来估算 score 的影响，本例中为第 12 月，估计的系数为 4.553。
+- 使用全量数据来估算 score 的影响，估计的系数为 5.219。
+
+这两个方案的简单 OLS 估算的系数都远高于真实值 2.000。
 
 原因是出现了遗漏变量偏误（Omitted Variable Bias, OVB）。由于估计量包含 
 
@@ -120,6 +127,12 @@ summary(m3)
 ## 机器学习正则化（Lasso/ElasticNet）
 
 为了控制高维特征（如几百家门店 Dummy、月份 Dummy），直接用普通回归会过拟合。顺理成章的想法是引入机器学习的正则化模型（如 Lasso / ElasticNet），利用 L1/L2 惩罚项自动筛选控制变量。
+
+明确的加性归因公式（Additive Decomposition）。我们可以将总销量（$\text{Sales}_{it}$）严格拆解为 3 个不互相重叠的业务业务因子：
+
+$$
+\text{销量}_{it} = \underbrace{\alpha_i}_{\text{门店地段/固有基盘}} + \underbrace{\gamma_t}_{\text{月份大盘季节性}} + \underbrace{\beta \cdot \text{Score}_{it}}_{\text{评分因果增量}} + \underbrace{\epsilon_{it}}_{\text{随机波动/残差}}
+$$
 
 ```r
 library(glmnet)
@@ -221,6 +234,8 @@ summary(dml_fit)
 2. 样本外交叉折叠（Cross-Fitting）：在估计残差时，使用训练集拟合 ML 模型，并在测试集上计算样本外残差。这彻底阻断了由于同一个样本既参与特征选择又参与因果估计所导致的过拟合（Overfitting）偏差。
 3. 结果：DML 估计出的系数为 1.963（标准误仅 0.0428），成功在高维控制变量下完美还原了真实的因果效应！
 
+> 注意：FE 和 DML 在这里依赖的是完全相同的可忽略性假设(unconfoundedness given store & month),只是估计方式不同(代数消去 vs. 机器学习正交化残差)。当控制变量维度进一步爆炸，比如把 store_id 换成成百上千个连续/交叉特征,不能再简单做"去均值"时，DML 的好处就非常多了。
+
 ## 非线性剂量-响应曲线（Dose-Response）
 
 在实际业务场景中，“评分每提升 1 分，销售额增加 2” 这一线性假设可能过于理想化。
@@ -303,6 +318,11 @@ D_res3  2.59727    0.08410   30.88   <2e-16 ***  (G4 vs G1)
 | 非线性 DML | 离散化 + 矩阵 DML | 0.83/1.65/2.60 |  评估剂量-响应曲线，指导运营边际预算分配 |
 
 当然看官们也注意到了 ElasticNet 模型的系数为非常接近事实。如果想快速通过业务特征筛选、提炼主要业务 Baseline 信号，而且能容忍极轻微估计偏差的场景下，这是性价比极高的工业级解法。
+
+还有一个提醒：
+
+> FE 和 DML 处理的始终是可以被观测变量（或固定效应）代理掉的混淆，对真正无法用任何可观测代理捕捉的混淆（比如会随时间变化、且和 store_id 不重合的隐性因素），这两种方法都无能为力。
+> 需要工具变量、断点回归、双重差分的平行趋势假设或其他准实验设计。
 
 ## 总结
 
